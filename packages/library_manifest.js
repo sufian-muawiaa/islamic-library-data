@@ -7,14 +7,18 @@
 (function(){
   window.PKG = window.PKG || {};
   var BASE = 'https://cdn.jsdelivr.net/gh/mohammed-2-5/islamic-library-data@master/data/books/';
-  function b(cat, id, title, author, bytes){
-    return {key:id, bookId:id, cat:cat, title:title, author:author, bytes:bytes};
+  function b(cat, id, title, author, bytes, base){
+    var o={key:id, bookId:id, cat:cat, title:title, author:author, bytes:bytes};
+    if(base) o.base=base;
+    return o;
   }
+  var SELF='https://cdn.jsdelivr.net/gh/sufian-muawiaa/islamic-library-data@main/data/books/';
   window.PKG.libraryManifest = {
     base: BASE,
     credit: 'بيانات نصية من مصادر مفتوحة (OpenITI / tafsir-api) — كل كتاب منسوب لمؤلفه.',
     sections: [
       {id:'aqeedah', label:'العقيدة', icon:'\uD83D\uDD4B', books:[
+        b('aqeedah','majmu_fatawa','مجموع الفتاوى','شيخ الإسلام ابن تيمية',38255890,SELF),
         b('aqeedah','usul_al_sunnah','أصول السنة','الإمام أحمد بن حنبل',15721),
         b('aqeedah','aqeedah_wasitiyyah','العقيدة الواسطية','شيخ الإسلام ابن تيمية',59830),
         b('aqeedah','fiqh_akbar','الفقه الأكبر','الإمام أبو حنيفة',15983)
