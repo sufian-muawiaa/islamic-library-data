@@ -101,6 +101,7 @@ progress{width:100%;height:8px}
 <!-- ===== APP SHELL ===== -->
 <div class="app hidden" id="app">
   <div class="topbar">
+    <button class="ic" id="backBtn" onclick="goBack()" title="رجوع" style="display:none">→</button>
     <button class="ic" onclick="openMore()">≡</button>
     <h1 id="barTitle">الرئيسية</h1>
     <button class="ic" onclick="go('search')">🔍</button>
@@ -265,7 +266,13 @@ const TITLES={home:'الرئيسية',discover:'اكتشف',knowledge:'المع�
   reader:'القارئ',packages:'إدارة المعرفة',settings:'الإعدادات',sources:'المصادر والحقوق',more:'المزيد',
   assist:'مساعد البحث الذكي',quran:'القرآن الكريم',hadith:'الحديث الشريف',riyad:'رياض الصالحين',tafsir:'التفاسير',fatwa:'الفقه والفتاوى',ktb:'المكتبة الإسلامية',ktbread:'قراءة الكتاب'};
 const NAVTABS=['home','discover','knowledge','learn','mine'];
-function go(scr,arg){
+var NAVHIST=[];var NAV_CUR=null;
+function updateBackBtn(){var bb=document.getElementById('backBtn');if(!bb)return;bb.style.display=(NAVHIST.length>0)?'':'none';}
+function goBack(){if(NAVHIST.length){var p=NAVHIST.pop();go(p.scr,p.arg,true);}else{go('home',null,true);}}
+function go(scr,arg,isBack){
+  if(!isBack){if(NAV_CUR&&NAV_CUR.scr!==scr){NAVHIST.push(NAV_CUR);if(NAVHIST.length>60)NAVHIST.shift();}}
+  if(scr==='home'){NAVHIST=[];}
+  NAV_CUR={scr:scr,arg:arg};
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const el=document.getElementById('scr-'+scr); if(el)el.classList.add('active');
   document.getElementById('barTitle').textContent=TITLES[scr]||'';
@@ -277,6 +284,7 @@ function go(scr,arg){
     assist:renderAssist,quran:renderQuran,hadith:renderHadith,riyad:renderRiyad,tafsir:renderTafsir,fatwa:renderFatwa,
     ktb:renderKtb,ktbread:renderKtbRead};
   if(R[scr])R[scr](arg);
+  updateBackBtn();
 }
 function openMore(){go('more');}
 function closeSheet(){document.getElementById('overlay').classList.remove('on');}
@@ -1233,7 +1241,7 @@ async function downloadLibBook(key){
   const b=libBook(key);if(!b){toast('كتاب غير معروف');return;}
   LIB_BUSY=true;
   const bar=document.getElementById('lbbar-'+key),lbl=document.getElementById('lblbl-'+key);
-  const base=libBase()+b.cat+'/'+b.bookId+'/';
+  const base=(b.base||libBase())+b.cat+'/'+b.bookId+'/';
   const setP=(v,m)=>{if(bar){bar.max=1;bar.value=v;}if(lbl)lbl.textContent=m||'';};
   try{
     setP(0.02,'… جلب بيانات الكتاب');

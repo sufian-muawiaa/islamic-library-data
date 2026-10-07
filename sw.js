@@ -1,5 +1,5 @@
 /* Service Worker — تشغيل كامل دون إنترنت */
-const CACHE = 'mdim-v9';
+const CACHE = 'mdim-v10';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './packages/quran.js', './packages/hadith.js', './packages/riyad.js', './packages/tafsir/_meta.js', './packages/remote_manifest.js', './packages/library_manifest.js'];
 self.addEventListener('install', e => {
   self.skipWaiting();
