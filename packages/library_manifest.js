@@ -88,10 +88,17 @@
       ]},
       {id:'tibb_ruqyah', label:'الطب النبوي والرقية الشرعية', icon:'\uD83C\uDF3F', books:[
         b('tibb','tibb_nabawi_qayyim','الطب النبوي','ابن قيم الجوزية',1284791,SELF,true),
+        b('tibb','tibb_abunuaym','الطب النبوي لأبي نعيم','أبو نعيم الأصبهاني',670304,SELF,true),
+        b('tibb','tibb_amrad_diya','الأمراض (الطب النبوي)','الضياء المقدسي',74420,SELF,true),
         b('ruqyah','wabil_sayyib','الوابل الصيب من الكلم الطيب','ابن قيم الجوزية',432923,SELF,true),
         b('ruqyah','da_wa_dawa','الداء والدواء (الجواب الكافي)','ابن قيم الجوزية',1233826,SELF,true),
         b('ruqyah','kalim_tayyib','الكلم الطيب','شيخ الإسلام ابن تيمية',119294,SELF,true),
         b('ruqyah','silah_mumin','سلاح المؤمن في الدعاء','ابن الإمام',1052673,SELF,true)
+      ]},
+      {id:'adhkar', label:'الأذكار والدعاء', icon:'\uD83D\uDCFF', books:[
+        b('adhkar','dua_tabarani','الدعاء','الطبراني',2568219,SELF,true),
+        b('adhkar','amal_yawm_sunni','عمل اليوم والليلة (ابن السني)','ابن السُّنّي',1061477,SELF,true),
+        b('adhkar','amal_yawm_nasai','عمل اليوم والليلة (النسائي)','الإمام النسائي',896630,SELF,true)
       ]},
       {id:'manhaj', label:'المنهج والتزكية', icon:'\uD83E\uDDED', books:[
         b('manhaj','uboodiyyah','العبودية','شيخ الإسلام ابن تيمية',231509,SELF,true),
