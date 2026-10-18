@@ -7,9 +7,10 @@
 (function(){
   window.PKG = window.PKG || {};
   var BASE = 'https://cdn.jsdelivr.net/gh/mohammed-2-5/islamic-library-data@master/data/books/';
-  function b(cat, id, title, author, bytes, base){
+  function b(cat, id, title, author, bytes, base, single){
     var o={key:id, bookId:id, cat:cat, title:title, author:author, bytes:bytes};
     if(base) o.base=base;
+    if(single) o.single=true;
     return o;
   }
   var SELF='https://cdn.jsdelivr.net/gh/sufian-muawiaa/islamic-library-data@main/data/books/';
@@ -86,19 +87,19 @@
         b('tafseer','tafsir_tanwir_al_miqbas','تنوير المقباس من تفسير ابن عباس','ابن عباس',29015698)
       ]},
       {id:'tibb_ruqyah', label:'الطب النبوي والرقية الشرعية', icon:'\uD83C\uDF3F', books:[
-        b('tibb','tibb_nabawi_qayyim','الطب النبوي','ابن قيم الجوزية',1284791,SELF),
-        b('ruqyah','wabil_sayyib','الوابل الصيب من الكلم الطيب','ابن قيم الجوزية',432923,SELF),
-        b('ruqyah','da_wa_dawa','الداء والدواء (الجواب الكافي)','ابن قيم الجوزية',1233826,SELF),
-        b('ruqyah','kalim_tayyib','الكلم الطيب','شيخ الإسلام ابن تيمية',119294,SELF),
-        b('ruqyah','silah_mumin','سلاح المؤمن في الدعاء','ابن الإمام',1052673,SELF)
+        b('tibb','tibb_nabawi_qayyim','الطب النبوي','ابن قيم الجوزية',1284791,SELF,true),
+        b('ruqyah','wabil_sayyib','الوابل الصيب من الكلم الطيب','ابن قيم الجوزية',432923,SELF,true),
+        b('ruqyah','da_wa_dawa','الداء والدواء (الجواب الكافي)','ابن قيم الجوزية',1233826,SELF,true),
+        b('ruqyah','kalim_tayyib','الكلم الطيب','شيخ الإسلام ابن تيمية',119294,SELF,true),
+        b('ruqyah','silah_mumin','سلاح المؤمن في الدعاء','ابن الإمام',1052673,SELF,true)
       ]},
       {id:'manhaj', label:'المنهج والتزكية', icon:'\uD83E\uDDED', books:[
-        b('manhaj','uboodiyyah','العبودية','شيخ الإسلام ابن تيمية',231509,SELF),
-        b('manhaj','iqtida_sirat','اقتضاء الصراط المستقيم','شيخ الإسلام ابن تيمية',1441202,SELF),
-        b('manhaj','jami_ulum_hikam','جامع العلوم والحكم','الحافظ ابن رجب الحنبلي',2194471,SELF)
+        b('manhaj','uboodiyyah','العبودية','شيخ الإسلام ابن تيمية',231509,SELF,true),
+        b('manhaj','iqtida_sirat','اقتضاء الصراط المستقيم','شيخ الإسلام ابن تيمية',1441202,SELF,true),
+        b('manhaj','jami_ulum_hikam','جامع العلوم والحكم','الحافظ ابن رجب الحنبلي',2194471,SELF,true)
       ]},
       {id:'adab', label:'الأدب والمجالس', icon:'\uD83D\uDCDC', books:[
-        b('adab','bahjat_majalis','بهجة المجالس وأنس المجالس','الحافظ ابن عبد البر',1372513,SELF)
+        b('adab','bahjat_majalis','بهجة المجالس وأنس المجالس','الحافظ ابن عبد البر',1372513,SELF,true)
       ]}
     ]
   };
