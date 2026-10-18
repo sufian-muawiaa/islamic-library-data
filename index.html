@@ -1241,26 +1241,44 @@ async function downloadLibBook(key){
   const b=libBook(key);if(!b){toast('كتاب غير معروف');return;}
   LIB_BUSY=true;
   const bar=document.getElementById('lbbar-'+key),lbl=document.getElementById('lblbl-'+key);
-  const base=(b.base||libBase())+b.cat+'/'+b.bookId+'/';
+  const root=(b.base||libBase());
   const setP=(v,m)=>{if(bar){bar.max=1;bar.value=v;}if(lbl)lbl.textContent=m||'';};
   try{
-    setP(0.02,'… جلب بيانات الكتاب');
-    const meta=await libGetJson(base+'metadata.json');
-    const total=meta.chapter_count||0;const chapters=[];
-    for(let i=1;i<=total;i++){
-      let ch;
-      try{ch=await libGetJson(base+'chapters/'+i+'.json');}catch(e){if(i===1)throw e;break;}
-      const entries=(ch.entries||[]).map(en=>({id:en.id,text:(en.text_ar||'').trim(),ref:(en.reference||'').trim()}));
-      chapters.push({id:(ch.chapter_id||i),title:(ch.title_ar||('الباب '+i)),entries});
-      setP(i/Math.max(total,1),'تنزيل الباب '+i+' من '+total);
+    let built,bytes;
+    if(b.single||b.pack){
+      /* حزمة مفردة: ملف JSON واحد لكل كتاب (يسهّل الرفع ويقلّل عدد الملفات) */
+      setP(0.05,'… جلب بيانات الكتاب');
+      const bk=await libGetJson(root+b.cat+'/'+b.bookId+'.json');
+      setP(0.6,'… معالجة المحتوى');
+      const chapters=(bk.chapters||[]).map((ch,idx)=>({
+        id:(ch.chapter_id||idx+1),
+        title:(ch.title_ar||('الباب '+(idx+1))),
+        entries:(ch.entries||[]).map(en=>({id:en.id,text:(en.text_ar||'').trim(),ref:(en.reference||'').trim()}))
+      }));
+      if(!chapters.length)throw new Error('لا توجد فصول');
+      built={key:b.key,bookId:b.bookId,cat:b.cat,name:(bk.title_ar||b.title),author:(bk.author_ar||b.author),chapters,entryCount:(bk.entry_count||0)};
+      bytes=bk.total_size_bytes||b.bytes||0;
+    }else{
+      /* الصيغة القديمة: metadata.json + chapters/i.json (توافق خلفي) */
+      const base=root+b.cat+'/'+b.bookId+'/';
+      setP(0.02,'… جلب بيانات الكتاب');
+      const meta=await libGetJson(base+'metadata.json');
+      const total=meta.chapter_count||0;const chapters=[];
+      for(let i=1;i<=total;i++){
+        let ch;
+        try{ch=await libGetJson(base+'chapters/'+i+'.json');}catch(e){if(i===1)throw e;break;}
+        const entries=(ch.entries||[]).map(en=>({id:en.id,text:(en.text_ar||'').trim(),ref:(en.reference||'').trim()}));
+        chapters.push({id:(ch.chapter_id||i),title:(ch.title_ar||('الباب '+i)),entries});
+        setP(i/Math.max(total,1),'تنزيل الباب '+i+' من '+total);
+      }
+      if(!chapters.length)throw new Error('لا توجد فصول');
+      built={key:b.key,bookId:b.bookId,cat:b.cat,name:(meta.title_ar||b.title),author:(meta.author_ar||b.author),chapters,entryCount:(meta.entry_count||0)};
+      bytes=meta.total_size_bytes||b.bytes||0;
     }
-    if(!chapters.length)throw new Error('لا توجد فصول');
-    const built={key:b.key,bookId:b.bookId,cat:b.cat,name:(meta.title_ar||b.title),author:(meta.author_ar||b.author),chapters,entryCount:(meta.entry_count||0)};
-    const bytes=meta.total_size_bytes||b.bytes||0;
     setP(1,'… الحفظ داخل الجهاز');
-    await idbPut('lib:'+key,{key,type:'library',data:built,bytes,chapters:chapters.length,installedAt:Date.now()});
+    await idbPut('lib:'+key,{key,type:'library',data:built,bytes,chapters:built.chapters.length,installedAt:Date.now()});
     window.PKG.LIB[key]=built;
-    S.installedLibs=S.installedLibs||{};S.installedLibs[key]={bytes,chapters:chapters.length,installedAt:Date.now()};save();
+    S.installedLibs=S.installedLibs||{};S.installedLibs[key]={bytes,chapters:built.chapters.length,installedAt:Date.now()};save();
     toast('\u2705 تم تنزيل «'+built.name+'»');
   }catch(e){toast('تعذّر التنزيل: '+e.message);}
   finally{LIB_BUSY=false;renderKtb();}
