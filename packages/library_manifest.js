@@ -52,7 +52,7 @@
         b('tazkiyah','amrad_al_qulub','أمراض القلوب وشفاؤها','شيخ الإسلام ابن تيمية',257389),
         b('tazkiyah','bidayat_al_hidaya','بداية الهداية','الإمام الغزالي',143130),
         b('tazkiyah','bustan_al_arifin','بستان العارفين','الإمام النووي',166092),
-        b('tazkiyah','ighathat_al_lahfan','إغاثة اللهفان من مصايد الشيطان','ابن قيم الجوزية',78588),
+        b('tazkiyah','ighathat_al_lahfan','إغاثة اللهفان من مصايد الشيطان','ابن قيم الجوزية',2096983,SELF,true),
         b('tazkiyah','ihya_ulum_al_din','إحياء علوم الدين','الإمام الغزالي',7936328),
         b('tazkiyah','madarij_al_salikin','مدارج السالكين','ابن قيم الجوزية',3827858),
         b('tazkiyah','riqqa_wa_buka','الرقة والبكاء','ابن قدامة المقدسي',157694),
